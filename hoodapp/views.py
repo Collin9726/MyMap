@@ -135,6 +135,7 @@ def add_resident(request):
             this_resident =User.objects.create_user(username, email, password)
             resident_profile = Resident_Profile(full_name=name, this_user=this_resident, username=username, hood=my_hood)
             resident_profile.save()
+            my_hood.occupants_count = len(Resident_Profile.objects.filter(hood = my_hood))
             send_signup_email_resident(name, username, password,admin_profile.full_name, my_hood.hood_name, email)
             
         return redirect(my_admin_profile)
@@ -144,3 +145,31 @@ def add_resident(request):
       
     title = "Add resident"
     return render(request, 'add-resident.html', {"form": form, "title": title})
+
+
+@login_required(login_url='/accounts/login/')
+def update_hood(request):
+    current_user = request.user
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        raise Http404()
+    
+    try:
+        my_hood = Neighbourhood.objects.get(admin = admin_profile)
+    except Neighbourhood.DoesNotExist:
+        pass
+
+    if request.method == 'POST':
+        form = NeighbourhoodForm(request.POST)
+        if form.is_valid():
+            my_hood.hood_name = form.cleaned_data['hood_name']
+            my_hood.location = form.cleaned_data['location']
+            my_hood.save()
+        return redirect(my_admin_profile)
+
+    else:
+        form = NeighbourhoodForm()
+      
+    title = "Update Hood"
+    return render(request, 'update-hood.html', {"form": form, "title": title})
