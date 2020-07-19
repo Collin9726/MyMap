@@ -1,7 +1,10 @@
 Hello {{name}}
 
-We're glad to have you joining the app.grade community. By logging into your account you can now post your projects and review projects by others like you.
+You have been added to {{hood}} neighbourhood by your admin {{admin}}. Use the credentials below to log into your account after which you can change your password and update your profile.
+
+Username: {{username}}
+Password: {{password}}
 
 Enjoy!
 
-app.grade (2020)
+HoodMap (2020)

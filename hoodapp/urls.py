@@ -9,6 +9,7 @@ urlpatterns=[
     url(r'^create-profile-admin/$',views.create_profile_admin,name = 'create-profile-admin'),
     url(r'^create-hood/$',views.create_hood,name = 'create-hood'),
     url(r'^my-admin-profile/$',views.my_admin_profile,name = 'my-admin-profile'),
+    url(r'^add-resident/$',views.add_resident,name = 'add-resident'),
     # url(r'^uploadproject/$',views.upload_project,name = 'upload-project'),
     # url(r'^deleteproject/(\d+)',views.delete_project,name = 'delete-project'),
     # url(r'^updatedescription/(\d+)',views.update_description,name = 'update-description'),

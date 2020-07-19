@@ -47,4 +47,15 @@ class Neighbourhood(models.Model):
 
     
 
-        
+class Resident_Profile(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    profile_photo = models.ImageField(upload_to = 'profilepics/', blank=True)
+    username = models.CharField(max_length = 50) 
+    full_name= models.CharField(max_length = 50)    
+    bio = models.TextField(blank=True)
+    this_user = models.ForeignKey(User,on_delete=models.CASCADE)
+    hood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+    home_location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"}, blank=True)
+
+    def __str__(self):
+        return self.full_name 
