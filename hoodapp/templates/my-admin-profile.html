@@ -12,7 +12,7 @@
         <div class="col-xs-0 col-sm-0 col-md-1"></div>
         <div class="col-xs-12 col-sm-6 col-md-4">
             <h2>{{profile.this_user.username}}</h2>
-            <h5>Full name: {{profile.full_name}}</h5>
+            <h6>Name: {{profile.full_name}}</h6>
             <p><span class="bolden">Bio: </span>{{profile.bio}}</p>
             {% if profile.this_user.email %} 
             <p><span class="bolden"><span class="fa fa-envelope"></span></span> {{profile.this_user.email}}</p>  
@@ -39,12 +39,10 @@
 
 <div class="container">    
     <div class="row">
-        <div class="col-xs-12">
-            <h2 class="bolden">My Hood</h2>  
-            <p>{{hood.location}}</p>  
-            {% for hood in hood.location %}
-            <p>{{hood}}</p>
-            {% endfor %}       
+        <div class="col-12">
+            <h2 class="bolden">My Hood | {{hood.hood_name}}</h2>  
+            <hr>
+            {{ map_page|safe }}      
         </div>        
     </div>
 </div>

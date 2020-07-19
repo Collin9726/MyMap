@@ -1,3 +1,4 @@
+import folium
 from django.shortcuts import render, redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -78,10 +79,32 @@ def my_admin_profile(request):
     except Admin_Profile.DoesNotExist:
         raise Http404()
 
+    my_hood =None
     try:
         my_hood = Neighbourhood.objects.get(admin = admin_profile)
     except Neighbourhood.DoesNotExist:
         raise Http404()
+
+    if my_hood:
+        longitude = my_hood.location[0]
+        latitude = my_hood.location[1]
+    
+
+    m = folium.Map(location=[latitude, longitude], zoom_start=15)
+    folium.Marker([latitude,longitude],
+                    popup='<h5>My neighbourhood.</h5>',
+                    tooltip=f'{my_hood.hood_name}',
+                    icon=folium.Icon(icon='glyphicon-home', color='blue')).add_to(m),
+    folium.CircleMarker(
+        location=[latitude, longitude],
+        radius=50,
+        popup=f'{my_hood.hood_name}',
+        color='#428bca',
+        fill=True,
+        fill_color='#428bca'
+    ).add_to(m),
+
+    map_page = m._repr_html_()
     # if request.method == 'POST':
     #     form = NeighbourhoodForm(request.POST)
     #     if form.is_valid():
@@ -94,4 +117,4 @@ def my_admin_profile(request):
     #     form = NeighbourhoodForm()
       
     title = admin_profile.this_user.username
-    return render(request, 'my-admin-profile.html', {"profile": admin_profile, "title": title, "hood": my_hood})
+    return render(request, 'my-admin-profile.html', {"profile": admin_profile, "title": title, "hood": my_hood, "map_page":map_page})
