@@ -173,3 +173,24 @@ def update_hood(request):
       
     title = "Update Hood"
     return render(request, 'update-hood.html', {"form": form, "title": title})
+
+
+
+@login_required(login_url='/accounts/login/')
+def delete_hood(request):
+    current_user = request.user
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        raise Http404()
+    
+    try:
+        my_hood = Neighbourhood.objects.get(admin = admin_profile)
+    except Neighbourhood.DoesNotExist:
+        pass
+
+    admin_profile.delete()
+    current_user.delete()
+
+    return redirect(index)      
+    
