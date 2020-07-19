@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Fondamento&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
+
+
+html, body{
+    scroll-behavior: smooth;
+    color: black;
+    height: 100%;
+    width: 100%;    
+    font-family: 'PT Serif', serif;  
+    font-size: medium;    
+}
+
+.navbar-brand{
+    font-family: 'Fondamento', cursive;
+    color: black !important;
+    font-weight: 600;
+    font-size: 2em;
+}
+
+.no-display{
+    visibility: hidden;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover{
+    color: inherit;
+}
+
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  height: 100%;
+}
+
+.jumbo{
+    background-image: url('https://images.wallpaperscraft.com/image/surface_dark_background_texture_50754_1280x720.jpg');    
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-top: 4em;
+    padding-bottom: 1em;
+}
+
+.jumbo a {    
+    color: inherit;
+}
+
+.carousel-border{    
+    margin-bottom: 1em;
+}
+
+.cyan{
+    color: lightcyan;
+}
+
+.carousel-caption{
+    background-color: rgb(0,0,0,0.7);
+    padding: 0.5em;
+    color: white;      
+}
+
+.carousel-inner img{
+    max-height: 60vh;       
+    object-fit: cover;
+    object-position: 50% 0%;
+}
+
+.app-intro{
+    color: lightcyan;
+}
+
+.jumbo .jumbotron{
+    background-color: transparent;
+}
+
+.jumbotron-quote{
+    padding-left: 2em !important;
+    padding-right: 2em !important;
+    background-color: #ece1e1;
+    border-radius: 0% !important;
+}
+
+.jumbotron-quote p{
+    font-size: 1.1em;
+}
+
+.project-card{    
+    border: 1px solid lightgray;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    height: 100%;
+    background-color: #f6f6f6;
+}
+
+.project-card:hover{
+    transform: scale(1.01);
+}
+
+.mb-4{
+    margin-bottom: 2em;
+}
+
+.bolden{
+    font-weight: 600;
+}
+
+.label-success{
+    background-color: lightseagreen;
+}
+
+.label-default{
+    background-color: peru;
+}
+
+.label-primary{
+    background-color: darkblue;
+}
+
+.under-nav{
+    padding-top: 3em;
+}
+
+.jumbo-scores{
+    padding-left: 2em !important;
+    padding-right: 2em !important;    
+    border-radius: 0% !important;
+    padding-top: 2em !important;
+}
+
+.card-post .label{
+    margin-right: 0.5em;
+}
+
+#rating_form h5{
+    margin-top: 1em;
+}
+
+#rating_form .btn-default{
+    background-color: darkblue;
+    color: white;
+}
+
+#rating_form .btn-default:hover{
+    background-color: blue;
+    color: white;
+}
+
+.account_options,
+.project_options{
+    display: none;
+}
+
+.jumbo-project-update{
+    background-color: transparent;
+}
+
+.title-font{
+    font-family: 'Fondamento', cursive;
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.auth-pg .jumbotron{
+    background-color: transparent;
+}
+
+.auth-pg .card{
+    border: 1px solid lightgray;
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    height: 100%;
+    background-color: #f6f6f6;
+}
+
+.no-pad-top{
+    padding-top: 0em;
+}
+
+@media screen and (max-width: 1439px) and (min-width:768px){
+    .app-intro{
+        padding-left: 1em !important;
+        padding-right: 1em !important;        
+    }
+}
+
+@media screen and (max-width: 992px){
+    .carousel-inner img{
+        max-height: 50vh;       
+        object-fit: cover;
+        object-position: 50% 0%;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .carousel-inner img{
+        max-height: 40vh;       
+        object-fit: cover;
+        object-position: 50% 0%;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .carousel-inner img{
+        max-height: 30vh;       
+        object-fit: cover;
+        object-position: 50% 0%;
+    }
+}
+
+
+.quote p{
+    font-size: medium;
+}
+
+.green{
+    color: rgb(75, 74, 74);
+}
+
