@@ -1,0 +1,7 @@
+Hello {{name}}
+
+We're glad to have you joining the app.grade community. By logging into your account you can now post your projects and review projects by others like you.
+
+Enjoy!
+
+app.grade (2020)

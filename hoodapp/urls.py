@@ -7,6 +7,7 @@ urlpatterns=[
     url(r'^$',views.index,name = 'index'),    
     url(r'^sendemail/$',views.send_email,name = 'send-email'),
     url(r'^create-profile-admin/$',views.create_profile_admin,name = 'create-profile-admin'),
+    url(r'^create-hood/$',views.create_hood,name = 'create-hood'),
     # url(r'^myprofile/$',views.my_profile,name = 'my-profile'),
     # url(r'^uploadproject/$',views.upload_project,name = 'upload-project'),
     # url(r'^deleteproject/(\d+)',views.delete_project,name = 'delete-project'),

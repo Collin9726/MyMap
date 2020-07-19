@@ -1,6 +1,6 @@
-from django.contrib.gis.db import models
+from django.db import models
 from django.contrib.auth.models import User
-from mapbox_location_field.spatial.models import SpatialLocationField
+from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 
 
 # Create your models here.
@@ -17,8 +17,10 @@ class Admin_Profile(models.Model):
 
     
 class Neighbourhood(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
     hood_name = models.CharField(max_length = 50)   
-    location = SpatialLocationField()
+    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
+    address = AddressAutoHiddenField(blank=True)
     occupants_count = models.IntegerField(default=0)
     admin = models.ForeignKey(Admin_Profile,on_delete=models.CASCADE)
 
