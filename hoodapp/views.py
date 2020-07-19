@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from .email import send_signup_email_admin, send_signup_email_resident
-from .models import Admin_Profile, Neighbourhood, Resident_Profile
-from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm
+from .models import Admin_Profile, Neighbourhood, Resident_Profile, Facility, Business
+from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm
 
 # Create your views here.
 def index(request):
@@ -92,14 +92,31 @@ def my_admin_profile(request):
         latitude = my_hood.location[1]
     
 
-    m = folium.Map(location=[latitude, longitude], zoom_start=15)
+    m = folium.Map(location=[latitude, longitude], zoom_start=17)
     folium.Marker([latitude,longitude],
                     popup='<h5>My neighbourhood.</h5>',
                     tooltip=f'{my_hood.hood_name}',
                     icon=folium.Icon(icon='glyphicon-home', color='blue')).add_to(m),
+    hospitals = Facility.objects.filter(category='hospital')
+    police_posts = Facility.objects.filter(category='police')
+    for hospital in hospitals:
+        hosp_longitude = hospital.location[0]
+        hosp_latitude = hospital.location[1]
+        folium.Marker([hosp_latitude,hosp_longitude],
+                    popup=f'<p>{hospital.contact}</p>',
+                    tooltip=f'{hospital.facility_name}',
+                    icon=folium.Icon(icon='glyphicon-plus-sign', color='brown')).add_to(m), 
+    for post in police_posts:
+        post_longitude = post.location[0]
+        post_latitude = post.location[1]
+        folium.Marker([post_latitude,post_longitude],
+                    popup=f'<p>{post.contact}</p>',
+                    tooltip=f'{post.facility_name}',
+                    icon=folium.Icon(icon='glyphicon-flag', color='darkgreen')).add_to(m), 
+
     folium.CircleMarker(
         location=[latitude, longitude],
-        radius=50,
+        radius=200,
         popup=f'{my_hood.hood_name}',
         color='#428bca',
         fill=True,
@@ -192,5 +209,33 @@ def delete_hood(request):
     admin_profile.delete()
     current_user.delete()
 
-    return redirect(index)      
+    return redirect(index)
+
+
+
+@login_required(login_url='/accounts/login/')
+def add_facility(request):
+    current_user = request.user
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        raise Http404()
     
+    try:
+        my_hood = Neighbourhood.objects.get(admin = admin_profile)
+    except Neighbourhood.DoesNotExist:
+        pass    
+
+    if request.method == 'POST':
+        form = FacilityForm(request.POST)
+        if form.is_valid():
+            facility = form.save(commit=False)
+            facility.hood = my_hood
+            facility.save()
+        return redirect(my_admin_profile)
+
+    else:
+        form = FacilityForm()
+      
+    title = "Add Facility"
+    return render(request, 'add-facility.html', {"form": form, "title": title})

@@ -59,3 +59,28 @@ class Resident_Profile(models.Model):
 
     def __str__(self):
         return self.full_name 
+
+
+class Business(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    business_name = models.CharField(max_length = 50) 
+    short_description = models.CharField(max_length = 150) 
+    business_email = models.EmailField() 
+    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
+    owner = models.ForeignKey(User,on_delete=models.CASCADE)
+    hood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+
+
+FACILITY_CHOICES = (
+    ('police','Police Post'),
+    ('hospital', 'Hospital/Healthcare center'),    
+)
+
+class Facility(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    facility_name = models.CharField(max_length = 100) 
+    category = models.CharField(max_length=50, choices=FACILITY_CHOICES, default='police')
+    contact = models.CharField(max_length = 100, blank=True)
+    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
+    hood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+    
