@@ -6,9 +6,11 @@ from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib import messages
 from .email import send_signup_email_admin, send_signup_email_resident
 from .models import Admin_Profile, Neighbourhood, Resident_Profile, Facility, Business
-from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm
+from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm, ChangePasswordForm
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -322,3 +324,33 @@ def delete_resident_profile(request):
     current_user.delete()
     
     return redirect(index)
+
+
+@login_required(login_url='/accounts/login/')
+def change_password(request):
+    current_user = request.user    
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            old_pass = form.cleaned_data['old_password']
+            new_pass = form.cleaned_data['new_password']
+            confirm_pass = form.cleaned_data['confirm_password']
+            user = authenticate(username=current_user.username, password=old_pass)
+            if user is not None:
+                if new_pass == confirm_pass:
+                    current_user.set_password(new_pass)
+                    current_user.save()
+                    messages.success(request, 'Your password was updated successfully!')
+                    return redirect(my_user_profile)
+                else:
+                    messages.warning(request, 'Your passwords did not match.')
+                
+            else:
+                messages.warning(request, 'Your old password is incorrect.')    
+
+    else:
+        form = ChangePasswordForm()
+      
+    title = "Change password"
+    return render(request, 'change-password.html', {"form": form, "title": title})
