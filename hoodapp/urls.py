@@ -14,6 +14,7 @@ urlpatterns=[
     url(r'^add-resident/$',views.add_resident,name = 'add-resident'),
     url(r'^delete-hood/$',views.delete_hood,name = 'delete-hood'),
     url(r'^add-facility/$',views.add_facility,name = 'add-facility'),
+    url(r'^add-business/$',views.add_business,name = 'add-business'),
     url(r'^delete-resident-profile/$',views.delete_resident_profile,name = 'delete-resident-profile'),
     url(r'^change-password/$',views.change_password,name = 'change-password'),
     # url(r'^deleteproject/(\d+)',views.delete_project,name = 'delete-project'),

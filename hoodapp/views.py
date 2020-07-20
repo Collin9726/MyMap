@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from .email import send_signup_email_admin, send_signup_email_resident
 from .models import Admin_Profile, Neighbourhood, Resident_Profile, Facility, Business
-from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm, ChangePasswordForm
+from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm, ChangePasswordForm, BusinessForm
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -371,3 +371,28 @@ def change_profile_photo(request):
 
     title = "Profile photo"    
     return render(request, 'update-prof-pic.html', {"title": title})
+
+
+
+@login_required(login_url='/accounts/login/')
+def add_business(request):
+    current_user = request.user
+    try:
+        resident_profile = Resident_Profile.objects.get(this_user = current_user)
+    except Resident_Profile.DoesNotExist:
+        raise Http404()
+    
+    if request.method == 'POST':
+        form = BusinessForm(request.POST)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.hood = resident_profile.hood
+            business.owner = current_user
+            business.save()
+        return redirect(my_user_profile)
+
+    else:
+        form = BusinessForm()
+      
+    title = "Add Business"
+    return render(request, 'add-business.html', {"form": form, "title": title})
