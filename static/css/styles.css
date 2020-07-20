@@ -27,6 +27,7 @@ img {
     object-fit: cover;
 }
 
+
 a {
     color: inherit;
 }
@@ -232,3 +233,9 @@ a:hover{
     color: rgb(75, 74, 74);
 }
 
+
+
+object{
+    width: 100%;
+    object-fit: cover;
+}
