@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/074d360d-5c30-46a6-bb50-cf8fde1c06c2)](https://codebeat.co/projects/github-com-collin9726-mymap-master)
+
 # HoodMap
 #### A neighbourhood map for residents of a particular place, 20/07/2020
 #### By [Collin Owino](https://github.com/Collin9726)
