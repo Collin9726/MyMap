@@ -118,8 +118,9 @@ def my_admin_profile(request):
                     popup='<h5>My neighbourhood.</h5>',
                     tooltip=f'{my_hood.hood_name}',
                     icon=folium.Icon(icon='glyphicon-home', color='blue')).add_to(m),
-    hospitals = Facility.objects.filter(category='hospital')
-    police_posts = Facility.objects.filter(category='police')
+    hospitals = Facility.objects.filter(category='hospital', hood=my_hood)
+    police_posts = Facility.objects.filter(category='police', hood=my_hood)
+    businesses = Business.objects.filter(hood=my_hood)
     for hospital in hospitals:
         hosp_longitude = hospital.location[0]
         hosp_latitude = hospital.location[1]
@@ -134,6 +135,13 @@ def my_admin_profile(request):
                     popup=f'<p>{post.contact}</p>',
                     tooltip=f'{post.facility_name}',
                     icon=folium.Icon(icon='glyphicon-flag', color='darkgreen')).add_to(m), 
+    for business in businesses:
+        biz_longitude = business.location[0]
+        biz_latitude = business.location[1]
+        folium.Marker([biz_latitude,biz_longitude],
+                    popup=f'<p>{business.business_name}</p>',
+                    tooltip=f'{business.business_email}',
+                    icon=folium.Icon(icon='glyphicon-shopping-cart', color='darkred')).add_to(m), 
 
     folium.CircleMarker(
         location=[latitude, longitude],
@@ -281,8 +289,9 @@ def my_user_profile(request):
                     popup='<h5>My neighbourhood.</h5>',
                     tooltip=f'{my_hood.hood_name}',
                     icon=folium.Icon(icon='glyphicon-home', color='blue')).add_to(m),
-    hospitals = Facility.objects.filter(category='hospital')
-    police_posts = Facility.objects.filter(category='police')
+    hospitals = Facility.objects.filter(category='hospital', hood=my_hood)
+    police_posts = Facility.objects.filter(category='police', hood=my_hood)
+    businesses = Business.objects.filter(hood=my_hood)
     for hospital in hospitals:
         hosp_longitude = hospital.location[0]
         hosp_latitude = hospital.location[1]
@@ -297,6 +306,13 @@ def my_user_profile(request):
                     popup=f'<p>{post.contact}</p>',
                     tooltip=f'{post.facility_name}',
                     icon=folium.Icon(icon='glyphicon-flag', color='darkgreen')).add_to(m), 
+    for business in businesses:
+        biz_longitude = business.location[0]
+        biz_latitude = business.location[1]
+        folium.Marker([biz_latitude,biz_longitude],
+                    popup=f'<p>{business.business_email}</p>',
+                    tooltip=f'{business.business_name}',
+                    icon=folium.Icon(icon='glyphicon-shopping-cart', color='darkred')).add_to(m), 
 
     folium.CircleMarker(
         location=[latitude, longitude],
