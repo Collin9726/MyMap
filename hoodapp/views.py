@@ -460,3 +460,23 @@ def residents_list(request):
     title = "Residents"
     return render(request, 'residents-list.html', {"title": title, "residents":residents, "hood":my_hood})
 
+
+@login_required(login_url='/accounts/login/')
+def delete_resident(request, res_id):
+    current_user = request.user
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        raise Http404() 
+
+    try:
+        resident = Resident_Profile.objects.get(pk = res_id)
+    except Resident_Profile.DoesNotExist:
+        raise Http404() 
+
+    u_account=resident.this_user
+    resident.delete()
+    u_account.delete()   
+    
+    return redirect(residents_list)
+

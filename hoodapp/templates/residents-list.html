@@ -5,11 +5,15 @@
 {{block.super}}
 
 <div class="container">
+    <br>
     <div class="row">
-        <div class="col-12">
-            <h1>Residents list | {{hood.hood_name}}</h1>
-            <hr>
+        <div class="col-8">
+            <h1>Residents list | {{hood.hood_name}}</h1>            
         </div>
+        <div class="col-4">
+            <a href="{%url 'index'%}"><button class="btn btn-outline-secondary">Home</button></a>
+        </div>
+        <hr>
         {% for resident in residents %}
         <div class="col-12">
             <div class="card list-card">
@@ -33,6 +37,7 @@
                             <p><span class="bolden"><span class="fa fa-envelope"></span></span> {{resident.this_user.email}}</p>  
                             {% endif %}         
                             <p class="text-muted">Joined on {{resident.created}}</p>
+                            <h6 class="text-danger"><a href="/delete-resident/{{resident.id}}">Remove resident</a></h6>
                         </div>
                     </div>                            
                 </div>
