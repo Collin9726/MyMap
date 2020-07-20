@@ -21,7 +21,7 @@ class Neighbourhood(models.Model):
     hood_name = models.CharField(max_length = 50)   
     location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
     address = AddressAutoHiddenField(blank=True)
-    occupants_count = models.IntegerField(default=0)
+    occupants_count = models.IntegerField(default=1)
     admin = models.ForeignKey(Admin_Profile,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -46,7 +46,6 @@ class Neighbourhood(models.Model):
         pass
 
     
-
 class Resident_Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     profile_photo = models.ImageField(upload_to = 'profilepics/', blank=True)
@@ -89,4 +88,5 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     posted_by = models.ForeignKey(Resident_Profile,on_delete=models.CASCADE)
+    hood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
     

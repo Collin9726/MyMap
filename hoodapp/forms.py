@@ -36,4 +36,4 @@ class BusinessForm(forms.ModelForm):
 class MakePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['created', 'posted_by']
+        exclude = ['created', 'posted_by', 'hood']

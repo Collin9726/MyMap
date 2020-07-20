@@ -18,6 +18,7 @@ urlpatterns=[
     url(r'^delete-resident-profile/$',views.delete_resident_profile,name = 'delete-resident-profile'),
     url(r'^change-password/$',views.change_password,name = 'change-password'),
     url(r'^make-post/$',views.make_post,name = 'make-post'),
+    url(r'^residents-list/$',views.residents_list,name = 'residents-list'),
     # url(r'^deleteproject/(\d+)',views.delete_project,name = 'delete-project'),
     # url(r'^updatedescription/(\d+)',views.update_description,name = 'update-description'),
     url(r'^changeprofilephoto/$',views.change_profile_photo,name = 'change-profile-photo'),

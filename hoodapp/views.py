@@ -152,10 +152,12 @@ def my_admin_profile(request):
         fill_color='#428bca'
     ).add_to(m),
 
-    map_page = m._repr_html_()    
+    map_page = m._repr_html_() 
+
+    posts = Post.objects.filter(hood=my_hood).order_by("-created") 
       
     title = admin_profile.this_user.username
-    return render(request, 'my-admin-profile.html', {"profile": admin_profile, "title": title, "hood": my_hood, "map_page":map_page})
+    return render(request, 'my-admin-profile.html', {"profile": admin_profile, "title": title, "hood": my_hood, "map_page":map_page, "posts":posts})
 
 
 @login_required(login_url='/accounts/login/')
@@ -323,10 +325,12 @@ def my_user_profile(request):
         fill_color='#428bca'
     ).add_to(m),
 
-    map_page = m._repr_html_()    
+    map_page = m._repr_html_()  
+
+    posts = Post.objects.filter(hood=my_hood).order_by("-created")
       
     title = resident_profile.username
-    return render(request, 'my-user-profile.html', {"profile": resident_profile, "title": title, "hood": my_hood, "map_page":map_page})
+    return render(request, 'my-user-profile.html', {"profile": resident_profile, "title": title, "hood": my_hood, "map_page":map_page, "posts":posts})
 
 
 @login_required(login_url='/accounts/login/')
@@ -416,9 +420,9 @@ def add_business(request):
 
 @login_required(login_url='/accounts/login/')
 def make_post(request):
-   current_user = request.user
+    current_user = request.user
     try:
-        resident_profile = Resident_Profile.objects.get(this_user = current_user)
+        resident_profile = Resident_Profile.objects.get(this_user = current_user)                
     except Resident_Profile.DoesNotExist:
         raise Http404()   
 
@@ -426,12 +430,33 @@ def make_post(request):
         form = MakePostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.posted_by = resident_profile            
+            post.posted_by = resident_profile  
+            post.hood = resident_profile.hood         
             post.save()
         return redirect(my_user_profile)
 
     else:
         form = MakePostForm()
-      
+        
     title = "Add Post"
     return render(request, 'make-post.html', {"form": form, "title": title})
+
+
+@login_required(login_url='/accounts/login/')
+def residents_list(request):
+    current_user = request.user
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        raise Http404()
+    
+    try:
+        my_hood = Neighbourhood.objects.get(admin = admin_profile)
+    except Neighbourhood.DoesNotExist:
+        raise Http404()
+
+    residents = Resident_Profile.objects.filter(hood=my_hood)
+
+    title = "Residents"
+    return render(request, 'residents-list.html', {"title": title, "residents":residents, "hood":my_hood})
+
