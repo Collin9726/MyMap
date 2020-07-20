@@ -113,7 +113,7 @@ def my_admin_profile(request):
         latitude = my_hood.location[1]
     
 
-    m = folium.Map(location=[latitude, longitude], zoom_start=17)
+    m = folium.Map(location=[latitude, longitude], zoom_start=16)
     folium.Marker([latitude,longitude],
                     popup='<h5>My neighbourhood.</h5>',
                     tooltip=f'{my_hood.hood_name}',
@@ -286,7 +286,7 @@ def my_user_profile(request):
     longitude = my_hood.location[0]
     latitude = my_hood.location[1]       
 
-    m = folium.Map(location=[latitude, longitude], zoom_start=17)
+    m = folium.Map(location=[latitude, longitude], zoom_start=16)
     folium.Marker([latitude,longitude],
                     popup='<h5>My neighbourhood.</h5>',
                     tooltip=f'{my_hood.hood_name}',
@@ -480,3 +480,37 @@ def delete_resident(request, res_id):
     
     return redirect(residents_list)
 
+
+@login_required(login_url='/accounts/login/')
+def search_business(request):
+    current_user = request.user
+    admin_profile = None
+    try:
+        admin_profile = Admin_Profile.objects.get(this_user = current_user)
+    except Admin_Profile.DoesNotExist:
+        pass
+
+    resident_profile = None
+    try:
+        resident_profile = Resident_Profile.objects.get(this_user = current_user)
+    except Resident_Profile.DoesNotExist:
+        pass
+
+    if admin_profile:
+        my_hood = Neighbourhood.objects.get(admin = admin_profile)
+    elif resident_profile:
+        my_hood = resident_profile.hood
+    else:
+        raise Http404 
+
+    if 'searchbusiness' in request.GET and request.GET["searchbusiness"]:
+        search_term = request.GET.get("searchbusiness") 
+        search_businesses = Business.objects.filter(business_name__icontains = search_term, hood=my_hood)
+        
+        message = f"{search_term}"
+
+        return render(request, 'search.html',{"message":message, "businesses":search_businesses})
+
+    else:
+        blank_message = "You haven't searched for any business."
+        return render(request, 'search.html',{"blank_message":blank_message})

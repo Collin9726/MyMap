@@ -92,6 +92,19 @@
         <!--posts section-->
         <div class="col-12 col-md-3">
             <div class="jumbotron map-jumbo">
+                <div class="row">
+                    <div class="col-12">
+                        <br>
+                        <form action="{%url 'search-business'%}" role="search">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search business" name="searchbusiness" aria-label="Search business" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit"><span class="fa fa-search"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>                
                 <h2>Posts</h2>
                 <hr>
                 <div class="row">
