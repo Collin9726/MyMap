@@ -354,3 +354,20 @@ def change_password(request):
       
     title = "Change password"
     return render(request, 'change-password.html', {"form": form, "title": title})
+
+
+@login_required(login_url='/accounts/login/')
+def change_profile_photo(request):
+    current_user = request.user
+    try:
+        profile = Resident_Profile.objects.get(this_user = current_user)
+    except Resident_Profile.DoesNotExist:
+        raise Http404()
+    
+    if request.method == 'POST':
+        profile.profile_photo = request.FILES['img']        
+        profile.save()
+        return redirect(my_user_profile)
+
+    title = "Profile photo"    
+    return render(request, 'update-prof-pic.html', {"title": title})
