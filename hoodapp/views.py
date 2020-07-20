@@ -9,8 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from .email import send_signup_email_admin, send_signup_email_resident
-from .models import Admin_Profile, Neighbourhood, Resident_Profile, Facility, Business
-from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm, ChangePasswordForm, BusinessForm
+from .models import Admin_Profile, Neighbourhood, Resident_Profile, Facility, Business, Post
+from .forms import AdminProfileForm, NeighbourhoodForm, AddResidentForm, FacilityForm, ChangePasswordForm, BusinessForm, MakePostForm
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -412,3 +412,26 @@ def add_business(request):
       
     title = "Add Business"
     return render(request, 'add-business.html', {"form": form, "title": title})
+
+
+@login_required(login_url='/accounts/login/')
+def make_post(request):
+   current_user = request.user
+    try:
+        resident_profile = Resident_Profile.objects.get(this_user = current_user)
+    except Resident_Profile.DoesNotExist:
+        raise Http404()   
+
+    if request.method == 'POST':
+        form = MakePostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.posted_by = resident_profile            
+            post.save()
+        return redirect(my_user_profile)
+
+    else:
+        form = MakePostForm()
+      
+    title = "Add Post"
+    return render(request, 'make-post.html', {"form": form, "title": title})

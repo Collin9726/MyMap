@@ -1,5 +1,5 @@
 from django import forms
-from .models import Admin_Profile, Neighbourhood, Facility, Business
+from .models import Admin_Profile, Neighbourhood, Facility, Business, Post
 
 class AdminProfileForm(forms.ModelForm):
     class Meta:
@@ -32,3 +32,8 @@ class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
         exclude = ['created', 'hood', 'owner']
+
+class MakePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ['created', 'posted_by']

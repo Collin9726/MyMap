@@ -83,4 +83,10 @@ class Facility(models.Model):
     contact = models.CharField(max_length = 100, blank=True)
     location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
     hood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+
+
+class Post(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    posted_by = models.ForeignKey(Resident_Profile,on_delete=models.CASCADE)
     
